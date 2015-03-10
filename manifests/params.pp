@@ -20,7 +20,8 @@ class reposado::params {
 	$www_group = $operatingsystem ? {
 		'debian' => 'www-data',
 		'CentOS' => 'apache',
-	}
+    'Ubuntu' => 'www-data',
+  }
 
     # The hostname of the apache vhost (when using reposado::apache)
     $vhost_name = "${fqdn}"

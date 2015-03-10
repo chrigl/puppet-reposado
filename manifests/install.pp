@@ -11,7 +11,6 @@ class reposado::install(
 ) inherits reposado::params {
 
 	# TODO: Check for python matching v2.6
-
 	package { "curl": # Required for repo_sync
 		ensure => installed,
 	}
@@ -21,6 +20,8 @@ class reposado::install(
 		provider => git,
 		source   => "https://github.com/wdas/reposado.git",
 	}
+
+  include reposado
 
 	file { "${root_dir}/code/repoutil":
 		owner   => $reposado_user,
@@ -56,7 +57,7 @@ class reposado::install(
 	
 	cron { "repo_sync":
 		ensure  => present,
-		command => "${root_dir}/code/repo_sync",
+		command => "${root_dir}/code/repo_sync >> /var/log/reposado_repo_sync.log 2>&1",
 		user    => $reposado_user,
 		hour    => 2,
 		minute  => 0,
